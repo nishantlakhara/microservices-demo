@@ -15,6 +15,6 @@ public class KafkaConfigData {
     private String schemaRegistryUrl;
     private String topicName;
     private List<String> topicNamesToCreate;
-    private Integer numOfPartitions;
+    private Integer numberOfPartitions;
     private Short replicationFactor;
 }

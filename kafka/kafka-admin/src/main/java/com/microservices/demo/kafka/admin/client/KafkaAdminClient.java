@@ -102,7 +102,7 @@ public class KafkaAdminClient {
         List<NewTopic> kafkaTopics = topicNames.stream()
                 .map(topic -> new NewTopic(
                         topic.trim(),
-                        kafkaConfigData.getNumOfPartitions(),
+                        kafkaConfigData.getNumberOfPartitions(),
                         kafkaConfigData.getReplicationFactor()
                 )).collect(Collectors.toList());
 

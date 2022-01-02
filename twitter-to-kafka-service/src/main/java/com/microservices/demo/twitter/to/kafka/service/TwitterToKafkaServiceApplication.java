@@ -1,6 +1,6 @@
 package com.microservices.demo.twitter.to.kafka.service;
 
-import com.microservices.demo.config.TwitterToKafkaServiceConfigData;
+import com.microservices.demo.twitter.to.kafka.service.init.StreamInitializer;
 import com.microservices.demo.twitter.to.kafka.service.runner.StreamRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,23 +18,21 @@ public class TwitterToKafkaServiceApplication implements CommandLineRunner {
 
     private static final Logger LOG = LoggerFactory.getLogger(TwitterToKafkaServiceApplication.class);
 
-    //More robust and thread safe operations. Favors immutability and no reflection and no @Autowired
-    private final TwitterToKafkaServiceConfigData twitterToKafkaServiceConfigData;
-
     private final StreamRunner streamRunner;
 
+    private final StreamInitializer streamInitializer;
+
     //Constructor injection. Better than field injection
-    public TwitterToKafkaServiceApplication(TwitterToKafkaServiceConfigData twitterToKafkaServiceConfigData,
-                                            StreamRunner streamRunner) {
-        this.twitterToKafkaServiceConfigData = twitterToKafkaServiceConfigData;
+    public TwitterToKafkaServiceApplication(StreamRunner streamRunner,
+                                            StreamInitializer streamInitializer) {
         this.streamRunner = streamRunner;
+        this.streamInitializer = streamInitializer;
     }
 
     @Override
     public void run(String... args) throws Exception {
         System.out.println("App starts...");
-        LOG.info(twitterToKafkaServiceConfigData.getTwitterKeywords().toString());
-        LOG.info(twitterToKafkaServiceConfigData.getWelcomeMessage());
+        streamInitializer.init();
         streamRunner.start();
     }
 }
